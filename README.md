@@ -1,2 +1,2 @@
-# LSMPrototype
+# LSWPrototype
 Little Sim World prototype

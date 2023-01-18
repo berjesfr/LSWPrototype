@@ -25,9 +25,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Layer 1
+  - Layer 2
+  - Layer 3
   - 
   - 
   - 
@@ -41,9 +41,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 1060578615
+    locked: 0
+  - name: Border
+    uniqueID: 1379249889
+    locked: 0
+  - name: Floor1
+    uniqueID: 2919325899
+    locked: 0
+  - name: Layer 1
+    uniqueID: 2425651459
+    locked: 0
+  - name: Layer 2
+    uniqueID: 4250941897
+    locked: 0
+  - name: Layer 3
+    uniqueID: 4189426099
+    locked: 0
   - name: Body
-    uniqueID: 2945026407
+    uniqueID: 267466381
     locked: 0
   - name: Head
-    uniqueID: 2592380007
+    uniqueID: 3062987981
+    locked: 0
+  - name: LastLayer
+    uniqueID: 1342821021
     locked: 0
