@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using System.IO;
 using System;
 
@@ -11,6 +12,12 @@ public struct OutfitSprite {
     public int price;
 }
 
+[System.Serializable]
+public struct HandlerStruct {
+    public InventoryClothingHandler handler;
+    public string type;
+}
+
 public class PlayerInventory : MonoBehaviour
 {   
 
@@ -19,6 +26,8 @@ public class PlayerInventory : MonoBehaviour
     public GameObject m_InventoryPanel;
     public List<OutfitSprite> m_OwnedOutfits;
     public int m_Coins;
+
+    public List<HandlerStruct> m_InventoryHandlers;
 
     void Awake () {
         if (instance == null) {
@@ -65,7 +74,17 @@ public class PlayerInventory : MonoBehaviour
     public void ItemSold(OutfitSprite item)
     {
         OutfitSprite outfit = m_OwnedOutfits.Find(i => i.sprite == item.sprite);
+        CheckIfSoldEquippedItem(item);
         m_OwnedOutfits.Remove(outfit);
-        m_Coins += Math.Max(0, item.price);
+        m_Coins += Math.Max(0, item.price);        
+    }
+
+    private void CheckIfSoldEquippedItem(OutfitSprite item)
+    {   
+        HandlerStruct clothingHandler = m_InventoryHandlers.Find(h => h.type == item.type);
+        int index = clothingHandler.handler.GetIndexOnOptions(item);
+        if (clothingHandler.handler.m_CurrentOption == index) {
+            clothingHandler.handler.HandleWornItemSold();
+        }
     }
 }
