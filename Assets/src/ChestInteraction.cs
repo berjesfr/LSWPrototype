@@ -9,6 +9,7 @@ public class ChestInteraction : MonoBehaviour
     private SpriteRenderer m_ChestRenderer;
     private bool m_Closed = true;
     private bool m_PlayerNearby;
+
     void Start()
     {
         m_Closed = true;
@@ -21,6 +22,8 @@ public class ChestInteraction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && m_PlayerNearby && m_Closed) {
             m_Closed = false;
             m_ChestRenderer.sprite = m_OpenSprite;
+            PlayerInventory.instance.m_Coins += 100;
+
         }
     }
 
