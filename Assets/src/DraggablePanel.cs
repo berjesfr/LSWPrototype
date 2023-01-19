@@ -7,9 +7,7 @@ public class DraggablePanel : EventTrigger
     
     private bool m_Dragging;
     private Vector2 m_PreviousMouse;
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
+
     private void Update()
     {
         if (m_Dragging) {
