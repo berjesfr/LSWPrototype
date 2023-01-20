@@ -5,27 +5,27 @@ using UnityEngine.EventSystems;
 public class DraggablePanel : EventTrigger
 {
     
-    private bool m_Dragging;
-    private Vector2 m_PreviousMouse;
+    private bool _dragging;
+    private Vector2 _previousMouse;
 
     private void Update()
     {
-        if (m_Dragging) {
+        if (_dragging) {
             Vector2 currentMouse = Input.mousePosition;
-            Vector2 mouseDelta = currentMouse - m_PreviousMouse;
+            Vector2 mouseDelta = currentMouse - _previousMouse;
             transform.position = new Vector2(transform.position.x + mouseDelta.x, transform.position.y + mouseDelta.y);
         }
-        m_PreviousMouse = Input.mousePosition;
+        _previousMouse = Input.mousePosition;
     }
 
     public override void OnPointerDown(PointerEventData data)
     {
-        m_Dragging = true;
+        _dragging = true;
     }
 
 
     public override void OnPointerUp(PointerEventData data)
     {
-        m_Dragging = false;
+        _dragging = false;
     }
 }

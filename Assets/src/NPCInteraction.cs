@@ -18,6 +18,7 @@ public class NPCInteraction : Interaction
 
     public override void InteractionAction()
     {
+
         Vector2 xDelta = player.transform.position - gameObject.transform.position;
         transform.rotation = Quaternion.Euler(0.0f, xDelta.x < 0 ? 0.0f : 180.0f, 0.0f);
 
@@ -25,6 +26,9 @@ public class NPCInteraction : Interaction
             NPCShopHandler handler = shopPanel.GetComponent<NPCShopHandler>();
             handler.BuyShop();
             shopPanel.SetActive(true);
+            _source.Play();
+            _source.pitch = 3.0f;
+            _source.volume = 1.5f;
         }
     
         if (shopPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) {

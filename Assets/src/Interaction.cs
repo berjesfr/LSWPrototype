@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using TMPro;
 
 public class Interaction: MonoBehaviour
@@ -12,7 +13,9 @@ public class Interaction: MonoBehaviour
     public string toWritetext;
     public float typingSpeed;
     public Coroutine writeText;
-
+    public AudioClip interactionSound;
+    
+    public AudioSource _source;
     private Color _originalColor;
     private SpriteRenderer _SpriteRenderer;
 
@@ -25,6 +28,9 @@ public class Interaction: MonoBehaviour
         if (highlight) {
             _SpriteRenderer = GetComponent<SpriteRenderer>();
         }
+        _source = gameObject.AddComponent<AudioSource>();
+        _source.clip = interactionSound;
+        _source.volume = 0.5f;
     }
 
     public void Update()
@@ -43,7 +49,7 @@ public class Interaction: MonoBehaviour
 
     public virtual void InteractionAction()
     {
-        Debug.Log("Interaction");
+        _source.Play();
     }
 
     public virtual void RunPlayerNearby()

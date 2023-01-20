@@ -12,18 +12,18 @@ public class ShopItemHandler : MonoBehaviour
     public Button m_BuyButton;
 
     private OutfitSprite m_Item;
-    private NPCShopHandler m_ShopHandler;
+    private NPCShopHandler shopHandler;
 
     public void SetupBuyData(OutfitSprite item, NPCShopHandler handler)
     {
         m_Item = item;
         m_Image.sprite = m_Item.sprite;
         m_TextMeshPro.text = $"$ {m_Item.price}";
-        if (PlayerInventory.instance.m_Coins < m_Item.price) {
+        if (PlayerInventory.instance.coins < m_Item.price) {
             m_TextMeshPro.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
         m_BuyButton.onClick.AddListener(Buy);
-        m_ShopHandler = handler;
+        shopHandler = handler;
     }
 
     public void SetupSellData(OutfitSprite item)
@@ -36,9 +36,9 @@ public class ShopItemHandler : MonoBehaviour
 
     private void Buy()
     {   
-        if (PlayerInventory.instance.m_Coins < m_Item.price) return;
+        if (PlayerInventory.instance.coins < m_Item.price) return;
         PlayerInventory.instance.ItemBought(m_Item);
-        m_ShopHandler.UpdateShopItems();
+        shopHandler.UpdateShopItems();
     }
 
     private void Sell()
@@ -49,7 +49,7 @@ public class ShopItemHandler : MonoBehaviour
 
     public void UpdateTextUI()
     {
-        if (PlayerInventory.instance.m_Coins < m_Item.price) {
+        if (PlayerInventory.instance.coins < m_Item.price) {
             m_TextMeshPro.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
     }

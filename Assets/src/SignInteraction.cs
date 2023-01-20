@@ -17,6 +17,7 @@ public class SignInteraction : Interaction
             dialogText.text = string.Empty;
             dialogBox.SetActive(true);
             writeText = StartCoroutine(WriteText());
+            _source.Play();
         }
     }
 

@@ -24,12 +24,15 @@ public class PlayerInventory : MonoBehaviour
 
     //Careful with this one, it is not a true singleton
     public static PlayerInventory instance {get; private set;}
-    public GameObject m_InventoryPanel;
-    public List<OutfitSprite> m_OwnedOutfits;
-    public int m_Coins;
+    public GameObject inventoryPanel;
+    public List<OutfitSprite> ownedOutfits;
+    public int coins;
 
-    public List<HandlerStruct> m_InventoryHandlers;
-    public TextMeshProUGUI m_CoinsText;
+    public List<HandlerStruct> inventoryHandlers;
+    public TextMeshProUGUI coinsText;
+
+    public AudioClip operationSound;
+    private AudioSource _source;
 
     void Awake () {
         if (instance == null) {
@@ -42,22 +45,29 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
-        m_Coins = 0;
-        m_CoinsText.text = $"$ {m_Coins}";
+        coins = 0;
+        coinsText.text = $"$ {coins}";
+        inventoryPanel.SetActive(true);
+        _source = gameObject.AddComponent<AudioSource>();
+        _source.clip = operationSound;
+        _source.volume = 0.5f;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I)) {
-            m_InventoryPanel.SetActive(!m_InventoryPanel.activeSelf);
+            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            inventoryPanel.SetActive(false);
         }
     }
     
     public List<Sprite> GetOptions(string type)
     {
         List<Sprite> options = new List<Sprite>();
-        foreach(var item in m_OwnedOutfits) {
-            if (type == item.type) {
+        foreach(var item in ownedOutfits) {
+            if (type.CompareTo(item.type) == 0) {
                 options.Add(item.sprite);
             }
         }
@@ -70,32 +80,33 @@ public class PlayerInventory : MonoBehaviour
         outfit.sprite = item.sprite;
         outfit.type = item.type;
         outfit.price = item.price;
-        m_OwnedOutfits.Add(outfit);
-
-        m_Coins -= Math.Max(0, item.price);
+        ownedOutfits.Add(outfit);
+        
+        coins -= Math.Max(0, item.price);
         UpdateCoinsUI();
     }
 
     public void ItemSold(OutfitSprite item)
-    {
-        OutfitSprite outfit = m_OwnedOutfits.Find(i => i.sprite == item.sprite);
-        m_OwnedOutfits.Remove(outfit);
-        m_Coins += Math.Max(0, item.price); 
+    {   
+        OutfitSprite outfit = ownedOutfits.Find(i => i.sprite == item.sprite);
+        ownedOutfits.Remove(outfit);
+        coins += Math.Max(0, item.price); 
         CheckIfSoldEquippedItem(item);    
         UpdateCoinsUI();
     }
 
     private void CheckIfSoldEquippedItem(OutfitSprite item)
-    {   
-        HandlerStruct clothingHandler = m_InventoryHandlers.Find(h => h.type == item.type);
+    {      
+        HandlerStruct clothingHandler = inventoryHandlers.Find(h => h.type.CompareTo(item.type) == 0);
         int index = clothingHandler.handler.GetIndexOnOptions(item);
-        if (clothingHandler.handler.m_CurrentOption == index) {
+        if (clothingHandler.handler.currentOption == index) {
             clothingHandler.handler.HandleWornItemSold();
         }
     }
 
     public void UpdateCoinsUI()
     {
-        m_CoinsText.text = $"$ {m_Coins}";
+        coinsText.text = $"$ {coins}";
+        _source.Play();
     }
 }

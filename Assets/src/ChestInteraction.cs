@@ -23,12 +23,13 @@ public class ChestInteraction : Interaction
         if (Input.GetKeyDown(KeyCode.E) && _playerNearby && _closed) {
             _closed = false;
             _chestRenderer.sprite = openSprite;
-            PlayerInventory.instance.m_Coins += 100;
+            PlayerInventory.instance.coins += 100;
             PlayerInventory.instance.UpdateCoinsUI();
             interactionIndicator.SetActive(false);
             dialogText.text = string.Empty;
             dialogBox.SetActive(true);
             writeText = StartCoroutine(WriteText());
+            _source.Play();
         } else if (Input.GetKeyDown(KeyCode.E) && _playerNearby && !_closed) {
             interactionIndicator.SetActive(false);
             dialogText.text = string.Empty;
