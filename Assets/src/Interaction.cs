@@ -1,14 +1,25 @@
+using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Interaction: MonoBehaviour
 {
     public GameObject interactionIndicator;
+    public bool highlight;
+    public bool dialog;
+    public GameObject dialogBox;  
+    public TextMeshProUGUI dialogText;
+    public string toWritetext;
+    public float typingSpeed;
+    public Coroutine writeText;
+
     private Color _originalColor;
     private SpriteRenderer _SpriteRenderer;
-    public bool highlight;
-    
+
     private void Start()
     {
+        dialogText.text = string.Empty;
+        dialogBox.SetActive(false);
         Setup();
         interactionIndicator.SetActive(false);
         if (highlight) {
@@ -19,6 +30,10 @@ public class Interaction: MonoBehaviour
     public void Update()
     {
         InteractionAction();
+        if (Input.GetKey(KeyCode.Escape) && dialogBox.activeSelf) {
+            dialogBox.SetActive(false);
+            if (writeText != null) StopCoroutine(writeText);
+        }
     }
 
     public virtual void Setup()
@@ -46,9 +61,12 @@ public class Interaction: MonoBehaviour
         if (other.CompareTag("Player")) {
             RunPlayerNearby();
             interactionIndicator.SetActive(true);
-            _originalColor = _SpriteRenderer.material.GetColor("_Color");
-            Color newColor = new Color(_originalColor.r + 0.5f, _originalColor.g + 0.5f, _originalColor.b + 0.5f, _originalColor.a);
-            _SpriteRenderer.material.SetColor("_Color", newColor);
+            if (highlight) {
+                _originalColor = _SpriteRenderer.material.GetColor("_Color");
+                Color newColor = new Color(_originalColor.r + 0.5f, _originalColor.g + 0.5f, _originalColor.b + 0.5f, _originalColor.a);
+                _SpriteRenderer.material.SetColor("_Color", newColor);
+            }
+            
         }
     }
 
@@ -57,7 +75,18 @@ public class Interaction: MonoBehaviour
         if (other.CompareTag("Player")) {
             RunPlayerLeft();
             interactionIndicator.SetActive(false);
-            _SpriteRenderer.material.SetColor("_Color", _originalColor);
+
+            if (highlight) {
+                _SpriteRenderer.material.SetColor("_Color", _originalColor);
+            }
+        }
+    }
+
+    public IEnumerator WriteText() 
+    {
+        foreach (char character in toWritetext.ToCharArray()) {
+            dialogText.text += character;
+            yield return new WaitForSeconds(typingSpeed);
         }
     }
 }

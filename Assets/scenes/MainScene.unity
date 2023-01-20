@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 334453990}
   - component: {fileID: 334453989}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CloseIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2872,7 +2872,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionIndicator: {fileID: 1784351656}
   highlight: 1
-  m_OpenSprite: {fileID: 21300040, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
+  dialog: 1
+  dialogBox: {fileID: 985514625}
+  dialogText: {fileID: 1844507060}
+  toWritetext: You found 100 coins
+  typingSpeed: 0.05
+  openSprite: {fileID: 21300040, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
 --- !u!61 &718584351
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3223,10 +3228,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionIndicator: {fileID: 1784351656}
   highlight: 1
-  m_DialogBox: {fileID: 985514625}
-  m_TextMeshPro: {fileID: 1844507060}
-  m_Text: Clothing shop to the west. Treasure chest north
-  m_TypingSpeed: 0.05
+  dialog: 1
+  dialogBox: {fileID: 985514625}
+  dialogText: {fileID: 1844507060}
+  toWritetext: Clothing shop west. Treasure chest north
+  typingSpeed: 0.05
 --- !u!1 &939614416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3514,28 +3520,6 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 6888657389250729770}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &978148802 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3727304701610485564, guid: 69c2def5cf58676468ab4404453a390d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3047120032995652798}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &978148803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978148802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb7142f401331d14aad84153624a0dfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionIndicator: {fileID: 1784351656}
-  highlight: 0
-  m_ShopPanel: {fileID: 954088465}
-  m_Player: {fileID: 7792184502176591894}
 --- !u!1 &982250920
 GameObject:
   m_ObjectHideFlags: 0
@@ -12194,11 +12178,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2684748207134660984, guid: 69c2def5cf58676468ab4404453a390d,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 7
-      objectReference: {fileID: 0}
+    - target: {fileID: 978148803, guid: 69c2def5cf58676468ab4404453a390d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 7792184502176591894}
+    - target: {fileID: 978148803, guid: 69c2def5cf58676468ab4404453a390d, type: 3}
+      propertyPath: dialogBox
+      value: 
+      objectReference: {fileID: 985514625}
+    - target: {fileID: 978148803, guid: 69c2def5cf58676468ab4404453a390d, type: 3}
+      propertyPath: shopPanel
+      value: 
+      objectReference: {fileID: 954088465}
+    - target: {fileID: 978148803, guid: 69c2def5cf58676468ab4404453a390d, type: 3}
+      propertyPath: dialogText
+      value: 
+      objectReference: {fileID: 1844507060}
+    - target: {fileID: 978148803, guid: 69c2def5cf58676468ab4404453a390d, type: 3}
+      propertyPath: interactionIndicator
+      value: 
+      objectReference: {fileID: 1784351656}
     - target: {fileID: 3724023523079105136, guid: 69c2def5cf58676468ab4404453a390d,
         type: 3}
       propertyPath: m_RootOrder
@@ -12258,11 +12257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433968519127459608, guid: 69c2def5cf58676468ab4404453a390d,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69c2def5cf58676468ab4404453a390d, type: 3}

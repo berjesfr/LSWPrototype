@@ -7,37 +7,37 @@ public class NPCInteraction : Interaction
 {
 
 
-    private bool m_PlayerNearby;
-    public GameObject m_ShopPanel;
-    public GameObject m_Player;
+    private bool _playerNearby;
+    public GameObject shopPanel;
+    public GameObject player;
 
     public override void Setup()
     {
-        m_ShopPanel.SetActive(false);
+        shopPanel.SetActive(false);
     }
 
     public override void InteractionAction()
     {
-        Vector2 xDelta = m_Player.transform.position - gameObject.transform.position;
+        Vector2 xDelta = player.transform.position - gameObject.transform.position;
         transform.rotation = Quaternion.Euler(0.0f, xDelta.x < 0 ? 0.0f : 180.0f, 0.0f);
 
-        if (m_PlayerNearby && Input.GetKeyDown(KeyCode.E)) {
-            m_ShopPanel.SetActive(true);
+        if (_playerNearby && Input.GetKeyDown(KeyCode.E)) {
+            shopPanel.SetActive(true);
         }
     
-        if (m_ShopPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) {
-            m_ShopPanel.SetActive(false);
+        if (shopPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) {
+            shopPanel.SetActive(false);
         }
     }
 
     public override void RunPlayerNearby()
     {
-        m_PlayerNearby = true;
+        _playerNearby = true;
     }
 
     public override void RunPlayerLeft()
     {
-        m_PlayerNearby = false;
-        m_ShopPanel.SetActive(false);
+        _playerNearby = false;
+        shopPanel.SetActive(false);
     }
 }

@@ -4,37 +4,49 @@ using UnityEngine;
 
 public class ChestInteraction : Interaction
 {   
-    public Sprite m_OpenSprite;
+    public Sprite openSprite;
 
-    private SpriteRenderer m_ChestRenderer;
-    private bool m_Closed = true;
-    private bool m_PlayerNearby;
+    private SpriteRenderer _chestRenderer;
+    private bool _closed = true;
+    private bool _playerNearby;
 
     public override void Setup()
     {
-        m_Closed = true;
-        m_PlayerNearby = false;
-        m_ChestRenderer = GetComponent<SpriteRenderer>();
+        _closed = true;
+        _playerNearby = false;
+        _chestRenderer = GetComponent<SpriteRenderer>();
+        dialogBox.SetActive(false);
     }
 
     public override void InteractionAction()
     {
-        if (Input.GetKeyDown(KeyCode.E) && m_PlayerNearby && m_Closed) {
-            m_Closed = false;
-            m_ChestRenderer.sprite = m_OpenSprite;
+        if (Input.GetKeyDown(KeyCode.E) && _playerNearby && _closed) {
+            _closed = false;
+            _chestRenderer.sprite = openSprite;
             PlayerInventory.instance.m_Coins += 100;
             PlayerInventory.instance.UpdateCoinsUI();
             interactionIndicator.SetActive(false);
+            dialogText.text = string.Empty;
+            dialogBox.SetActive(true);
+            writeText = StartCoroutine(WriteText());
+        } else if (Input.GetKeyDown(KeyCode.E) && _playerNearby && !_closed) {
+            interactionIndicator.SetActive(false);
+            dialogText.text = string.Empty;
+            toWritetext = "It's empty...";
+            dialogBox.SetActive(true);
+            writeText = StartCoroutine(WriteText());
         }
     }
 
     public override void RunPlayerNearby()
     {
-        m_PlayerNearby = true;
+        _playerNearby = true;
     }
 
     public override void RunPlayerLeft()
     {
-        m_PlayerNearby = false;
+        _playerNearby = false;
+        dialogBox.SetActive(false);
+        if (writeText != null) StopCoroutine(writeText);
     }
 }
