@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPCInteraction : MonoBehaviour
+public class NPCInteraction : Interaction
 {
 
 
@@ -11,12 +11,12 @@ public class NPCInteraction : MonoBehaviour
     public GameObject m_ShopPanel;
     public GameObject m_Player;
 
-    private void Awake()
+    public override void Setup()
     {
-        m_ShopPanel.SetActive(true);
+        m_ShopPanel.SetActive(false);
     }
 
-    private void Update()
+    public override void InteractionAction()
     {
         Vector2 xDelta = m_Player.transform.position - gameObject.transform.position;
         transform.rotation = Quaternion.Euler(0.0f, xDelta.x < 0 ? 0.0f : 180.0f, 0.0f);
@@ -30,18 +30,14 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public override void RunPlayerNearby()
     {
-        if (other.CompareTag("Player")) {
-            m_PlayerNearby = true;
-        }
+        m_PlayerNearby = true;
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public override void RunPlayerLeft()
     {
-         if (other.CompareTag("Player")) {
-            m_PlayerNearby = false;
-            m_ShopPanel.SetActive(false);
-        }
+        m_PlayerNearby = false;
+        m_ShopPanel.SetActive(false);
     }
 }

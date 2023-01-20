@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class SignInteraction : MonoBehaviour
+public class SignInteraction : Interaction
 {
     public GameObject m_DialogBox;  
     public TextMeshProUGUI m_TextMeshPro;
@@ -13,19 +13,17 @@ public class SignInteraction : MonoBehaviour
 
     private bool m_PlayerNearby;
     private Coroutine m_WriteText;
-    private Color m_OriginalColor;
-    private SpriteRenderer m_SpriteRenderer;
 
-    private void Start()
+    public override void Setup()
     {
         m_TextMeshPro.text = string.Empty;
         m_DialogBox.SetActive(false);
-        m_SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    public override void InteractionAction()
     {
         if (Input.GetKey(KeyCode.E) && m_PlayerNearby && !m_DialogBox.activeSelf) {
+            interactionIndicator.SetActive(false);
             m_TextMeshPro.text = string.Empty;
             m_DialogBox.SetActive(true);
             m_WriteText = StartCoroutine(WriteText());
@@ -37,24 +35,16 @@ public class SignInteraction : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public override void RunPlayerNearby()
     {
-        if (other.CompareTag("Player")) {
-            m_PlayerNearby = true;
-            m_OriginalColor = m_SpriteRenderer.material.GetColor("_Color");
-            Color newColor = new Color(m_OriginalColor.r + 0.5f, m_OriginalColor.g + 0.5f, m_OriginalColor.b + 0.5f, m_OriginalColor.a);
-            m_SpriteRenderer.material.SetColor("_Color", newColor);
-        }
+        m_PlayerNearby = true;
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public override void RunPlayerLeft()
     {
-        if (other.CompareTag("Player")) {
             m_PlayerNearby = false;
             m_DialogBox.SetActive(false);
             if (m_WriteText != null) StopCoroutine(m_WriteText);
-            m_SpriteRenderer.material.SetColor("_Color", m_OriginalColor);
-        }
     }
 
     private IEnumerator WriteText() 
