@@ -24,7 +24,7 @@ public class NPCShopHandler : MonoBehaviour
         foreach(OutfitSprite item in m_AvailableItems) {
             GameObject shopItem = Instantiate(m_ShopItemPrefab);
             shopItem.transform.SetParent(m_BuyContainer.transform);
-            shopItem.GetComponent<ShopItemHandler>().SetupBuyData(item);
+            shopItem.GetComponent<ShopItemHandler>().SetupBuyData(item, this);
         }
     }
 
@@ -41,14 +41,21 @@ public class NPCShopHandler : MonoBehaviour
         }
     }
 
-    public void DestroyAllShopChildren(GameObject target)
+    public void UpdateShopItems()
+    {
+        int nbChildren = m_BuyContainer.transform.childCount;
+        for (int i = nbChildren - 1; i >= 0; i--) {
+            m_BuyContainer.transform.GetChild(i).gameObject.GetComponent<ShopItemHandler>().UpdateTextUI();
+        }
+    }
+
+
+    private void DestroyAllShopChildren(GameObject target)
     {    
         int nbChildren = target.transform.childCount;
-
         for (int i = nbChildren - 1; i >= 0; i--) {
             DestroyImmediate(target.transform.GetChild(i).gameObject);
         }
-    
     }
 
 }

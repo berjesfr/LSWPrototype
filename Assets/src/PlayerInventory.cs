@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System.IO;
 using System;
+using TMPro;
 
 [System.Serializable]
 public struct OutfitSprite {
@@ -28,6 +29,7 @@ public class PlayerInventory : MonoBehaviour
     public int m_Coins;
 
     public List<HandlerStruct> m_InventoryHandlers;
+    public TextMeshProUGUI m_CoinsText;
 
     void Awake () {
         if (instance == null) {
@@ -41,7 +43,9 @@ public class PlayerInventory : MonoBehaviour
     private void Start()
     {
         m_Coins = 0;
+        m_CoinsText.text = $"$ {m_Coins}";
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I)) {
@@ -69,14 +73,16 @@ public class PlayerInventory : MonoBehaviour
         m_OwnedOutfits.Add(outfit);
 
         m_Coins -= Math.Max(0, item.price);
+        UpdateCoinsUI();
     }
 
     public void ItemSold(OutfitSprite item)
     {
         OutfitSprite outfit = m_OwnedOutfits.Find(i => i.sprite == item.sprite);
-        CheckIfSoldEquippedItem(item);
         m_OwnedOutfits.Remove(outfit);
-        m_Coins += Math.Max(0, item.price);        
+        m_Coins += Math.Max(0, item.price); 
+        CheckIfSoldEquippedItem(item);    
+        UpdateCoinsUI();
     }
 
     private void CheckIfSoldEquippedItem(OutfitSprite item)
@@ -86,5 +92,10 @@ public class PlayerInventory : MonoBehaviour
         if (clothingHandler.handler.m_CurrentOption == index) {
             clothingHandler.handler.HandleWornItemSold();
         }
+    }
+
+    public void UpdateCoinsUI()
+    {
+        m_CoinsText.text = $"$ {m_Coins}";
     }
 }

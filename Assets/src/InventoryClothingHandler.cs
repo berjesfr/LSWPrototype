@@ -14,7 +14,7 @@ public class InventoryClothingHandler : MonoBehaviour
 
     private void Start()
     {
-        m_Image = GetComponentsInChildren<Image>()[0];
+        m_Image = GetComponentsInChildren<Image>()[1];
         LoadOptions();
     }
 

@@ -23,7 +23,7 @@ public class ChestInteraction : MonoBehaviour
             m_Closed = false;
             m_ChestRenderer.sprite = m_OpenSprite;
             PlayerInventory.instance.m_Coins += 100;
-
+            PlayerInventory.instance.UpdateCoinsUI();
         }
     }
 
