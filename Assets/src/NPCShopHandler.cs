@@ -6,51 +6,46 @@ using TMPro;
 
 public class NPCShopHandler : MonoBehaviour
 {
-    public List<OutfitSprite> m_AvailableItems;
-    public GameObject m_ShopItemPrefab;
-    public GameObject m_BuyContainer;
-    public GameObject m_SellContainer;
-    private void Start() 
-    {
-        BuyShop();
-    }
+    public List<OutfitSprite> availableItems;
+    public GameObject shopItemPrefab;
+    public GameObject buyShopContainer;
+    public GameObject sellShopContainer;
 
     public void BuyShop()
     {
-
-        m_SellContainer.SetActive(false);
-        m_BuyContainer.SetActive(true);
-        DestroyAllShopChildren(m_BuyContainer);
-        foreach(OutfitSprite item in m_AvailableItems) {
-            GameObject shopItem = Instantiate(m_ShopItemPrefab);
-            shopItem.transform.SetParent(m_BuyContainer.transform);
+        sellShopContainer.SetActive(false);
+        buyShopContainer.SetActive(true);
+        CleanShop(buyShopContainer);
+        foreach(OutfitSprite item in availableItems) {
+            GameObject shopItem = Instantiate(shopItemPrefab);
+            shopItem.transform.SetParent(buyShopContainer.transform);
             shopItem.GetComponent<ShopItemHandler>().SetupBuyData(item, this);
         }
     }
 
     public void SellShop()
     {
-        m_SellContainer.SetActive(true);
-        m_BuyContainer.SetActive(false);
-        DestroyAllShopChildren(m_SellContainer);
+        sellShopContainer.SetActive(true);
+        buyShopContainer.SetActive(false);
+        CleanShop(sellShopContainer);
         foreach(OutfitSprite item in PlayerInventory.instance.m_OwnedOutfits) {
             if (item.sprite == null || item.price == 0) continue;
-            GameObject shopItem = Instantiate(m_ShopItemPrefab);
-            shopItem.transform.SetParent(m_SellContainer.transform);
+            GameObject shopItem = Instantiate(shopItemPrefab);
+            shopItem.transform.SetParent(sellShopContainer.transform);
             shopItem.GetComponent<ShopItemHandler>().SetupSellData(item);
         }
     }
 
     public void UpdateShopItems()
     {
-        int nbChildren = m_BuyContainer.transform.childCount;
+        int nbChildren = buyShopContainer.transform.childCount;
         for (int i = nbChildren - 1; i >= 0; i--) {
-            m_BuyContainer.transform.GetChild(i).gameObject.GetComponent<ShopItemHandler>().UpdateTextUI();
+            buyShopContainer.transform.GetChild(i).gameObject.GetComponent<ShopItemHandler>().UpdateTextUI();
         }
     }
 
 
-    private void DestroyAllShopChildren(GameObject target)
+    public void CleanShop(GameObject target)
     {    
         int nbChildren = target.transform.childCount;
         for (int i = nbChildren - 1; i >= 0; i--) {

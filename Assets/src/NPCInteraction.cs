@@ -22,11 +22,16 @@ public class NPCInteraction : Interaction
         transform.rotation = Quaternion.Euler(0.0f, xDelta.x < 0 ? 0.0f : 180.0f, 0.0f);
 
         if (_playerNearby && Input.GetKeyDown(KeyCode.E)) {
+            NPCShopHandler handler = shopPanel.GetComponent<NPCShopHandler>();
+            handler.BuyShop();
             shopPanel.SetActive(true);
         }
     
         if (shopPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) {
             shopPanel.SetActive(false);
+            NPCShopHandler handler = shopPanel.GetComponent<NPCShopHandler>();
+            handler.CleanShop(handler.buyShopContainer);
+            handler.CleanShop(handler.sellShopContainer);
         }
     }
 
