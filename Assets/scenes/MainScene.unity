@@ -12201,6 +12201,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 369303121079526403, guid: 39b923171da579f4e903ae2753547ba0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5584085
+      objectReference: {fileID: 0}
+    - target: {fileID: 369303121079526403, guid: 39b923171da579f4e903ae2753547ba0,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.8211788
+      objectReference: {fileID: 0}
     - target: {fileID: 369303121079526463, guid: 39b923171da579f4e903ae2753547ba0,
         type: 3}
       propertyPath: coinsText
